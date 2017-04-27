@@ -9,6 +9,7 @@ import java.net.URLStreamHandler;
 
 import java.util.UUID;
 
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.protocols.data.Handler;
@@ -80,12 +81,17 @@ public class PDFRenderer {
         OutputStream outputPDF = new FileOutputStream(pdfFilePath);
 
         //Create the renderer and point it to the XHTML document
-        ITextRenderer renderer = new ITextRenderer();
-        renderer.setDocument(url);
+        PdfRendererBuilder builder = new PdfRendererBuilder();
+        builder.withUri(url);
+        builder.toStream(outputPDF);
+        builder.run();
 
-        //Render the PDF document
-        renderer.layout();
-        renderer.createPDF(outputPDF);
+//        ITextRenderer renderer = new ITextRenderer();
+//        renderer.setDocument(url);
+//
+//        //Render the PDF document
+//        renderer.layout();
+//        renderer.createPDF(outputPDF);
 
         //Close the streams (and don't cross them!)
         os.close();
